@@ -1,6 +1,6 @@
 # Au Revoir 
 
-![Au-Revoir](./docs/images/au-revoir-logo.svg)
+![Au-Revoir](./client/src/images/au-revoir-logo.svg)
 
 This is my final project Au Revoir. This is a web application that provides the users with the ability to plan their trip from begining to end. It stores information of all their reservations (flights, hotels, restaurants, etc), saves their previous trips and allows them to repeat their favorite experiences. 
 
