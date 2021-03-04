@@ -1,29 +1,8 @@
-# Create React Express App
+# Au Revoir 
 
-## About This Boilerplate
+![Au-Revoir](./docs/images/au-revoir-logo.svg)
 
-This setup allows for a Node/Express/React app which can be easily deployed to Heroku.
+This is my final project Au Revoir. This is a web application that provides the users with the ability to plan their trip from begining to end. It stores information of all their reservations (flights, hotels, restaurants, etc), saves their previous trips and allows them to repeat their favorite experiences. 
 
-The front-end React app will auto-reload as it's updated via webpack dev server, and the backend Express app will auto-reload independently with nodemon.
+The front end of the application can be found in the `client` folder, while the back end is located in the `api` folder. 
 
-## Starting the app locally
-
-Start by installing front and backend dependencies. While in this directory, run the following command:
-
-```
-npm install
-```
-
-This should install node modules within the server and the client folder.
-
-After both installations complete, run the following command in your terminal:
-
-```
-npm start
-```
-
-Your app should now be running on <http://localhost:3000>. The Express server should intercept any AJAX requests from the client.
-
-## Deployment (Heroku)
-
-To deploy, simply add and commit your changes, and push to Heroku. As is, the NPM scripts should take care of the rest.
