@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import logo from "./mainlogo.svg";
 import "./App.css";
-
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -47,7 +46,7 @@ function App() {
         <p>The Art of Traveling Headache Free</p>
         </div>
     </div>
-  
+ 
   );
 }
 
