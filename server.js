@@ -1,8 +1,9 @@
 const express = require("express");
 const path = require("path");
+const mongoose = require('mongoose');
 const PORT = process.env.PORT || 3001;
 const app = express();
-
+mongoose.connect('mongodb://localhost/au-revoir', {useNewUrlParser: true, useUnifiedTopology: true});
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
