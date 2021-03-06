@@ -1,9 +1,12 @@
 const express = require("express");
 const path = require("path");
 const mongoose = require('mongoose');
+const tripRouter = require("./routers/tripRouter");
+
 const PORT = process.env.PORT || 3001;
 const app = express();
-mongoose.connect('mongodb://localhost/au-revoir', {useNewUrlParser: true, useUnifiedTopology: true});
+
+mongoose.connect('mongodb://localhost/auRevoir', {useNewUrlParser: true, useUnifiedTopology: true});
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -11,9 +14,8 @@ app.use(express.json());
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
-
 // Define API routes here
-
+app.use('/api/trips', tripRouter);
 // Send every other request to the React app
 // Define any API routes before this runs
 app.get("*", (req, res) => {
