@@ -5,6 +5,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
 import { useCurrentUser } from "../../../context/UserContext";
+import Trip from "../../Trip";
 import noTripsImage from "../../../images/undraw_void_3ggu.svg";
 
 import "./planner.css";
@@ -24,7 +25,7 @@ function Planner() {
     };
     load();
   }, []);
-  if (!trips.length) {
+  if (false && !trips.length) {
     return (
       <div className="no-trips">
         <Typography variant="h5" className="no-trips-title">
@@ -37,7 +38,11 @@ function Planner() {
       </div>
     );
   }
-  return <div id="tripMap"></div>;
+  return (
+    <div className="planner-page">
+      <Trip />
+    </div>
+  );
 }
 
 export default Planner;
