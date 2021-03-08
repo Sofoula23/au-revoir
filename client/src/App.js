@@ -1,54 +1,34 @@
-import React, { Component } from "react";
-import logo from "./mainlogo.svg";
+import { HashRouter as Router, Switch, Route, Link } from "react-router-dom";
+import React from "react";
+import UserContextProvider from "./context/UserContext";
+import SignInSide from "./components/pages/Login/login";
+import SignUp from "./components/pages/Register/register.js";
+import Planner from "./components/pages/Planner/planner.js";
+import Header from "./components/Header/header.js";
+
 import "./App.css";
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-}));
-
-function App() { 
-  const classes = useStyles();
+function App() {
   return (
     <div className="App">
-         <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="light" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
-          {/* <Typography variant="h6" className={classes.title}>
-          The Art Of Traveling Headache Free
-          </Typography> */}
-          <Button color="inherit">Login</Button>
-          <Button color="inherit">Sign Up</Button>
-        </Toolbar>
-      </AppBar>
+      <Router>
+        <UserContextProvider>
+          <Header />
+          <Switch>
+            <Route exact path="/">
+              <Planner />
+            </Route>
+            <Route exact path="/login">
+              <SignInSide />
+            </Route>
+            <Route exact path="/register">
+              <SignUp />
+            </Route>
+          </Switch>
+        </UserContextProvider>
+      </Router>
     </div>
-      
-        <img src={logo} className="App-logo" alt="logo" />
-          <div className="Slogan">
-        <p>The Art of Traveling Headache Free</p>
-        </div>
-    </div>
- 
   );
 }
-
 
 export default App;

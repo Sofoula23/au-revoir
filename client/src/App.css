@@ -1,15 +1,6 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  margin-top:100px;
-
-}
 .MuiToolbar-regular {
   background-color: white;
-} 
+}
 .MuiButton-label {
   color: black;
 }
@@ -28,15 +19,12 @@
   font-size: large;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.error-message {
+  color: #ed3b57;
+  text-align: center;
+  margin-top: 8px;
 }
 
-body {
-  font-family: 'Sansita Swashed', cursive;
-  font-size: x-large;
-}
-p {
-  margin-top: 30px;
+.center {
+  text-align: center;
 }
