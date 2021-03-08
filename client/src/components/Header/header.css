@@ -1,9 +1,8 @@
-.MuiToolbar-regular {
-    background-color: white;
-  } 
-  .MuiButton-label {
-    color: black;
-  }
-  .MuiTypography-h6 {
-    color: black;
-  }
+.header-logo {
+  width: 55px;
+  margin-right: 12px;
+}
+
+.header-username {
+  margin-left: 4px;
+}

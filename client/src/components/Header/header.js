@@ -1,93 +1,85 @@
-import './header.css';
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import logo from "../../logo.svg";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
+import AccountCircle from "@material-ui/icons/AccountCircle";
 
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import Switch from '@material-ui/core/Switch';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormGroup from '@material-ui/core/FormGroup';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
+import { useCurrentUser } from "../../context/UserContext";
+import "./header.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
   },
   title: {
     flexGrow: 1,
   },
 }));
 
-export default function MenuAppBar() {
+function Header() {
   const classes = useStyles();
-  const [auth, setAuth] = React.useState(true);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
+  const history = useHistory();
+  const [currentUser, setUser] = useCurrentUser();
+  const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleChange = (event) => {
-    setAuth(event.target.checked);
-  };
+  const isMenuOpen = Boolean(anchorEl);
+  const isLoggedIn = Boolean(currentUser);
+  const menuId = "header-account-menu";
 
-  const handleMenu = (event) => {
+  const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const logout = () => {
+    handleMenuClose();
+    setUser(null);
+    history.push("/login");
   };
 
   return (
     <div className={classes.root}>
-      <FormGroup>
-        <FormControlLabel
-          control={<Switch checked={auth} onChange={handleChange} aria-label="login switch" />}
-          label={auth ? 'Logout' : 'Login'}
-        />
-      </FormGroup>
       <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
+          <img className="header-logo" alt="logo" src={logo} />
+          <Typography variant="h6" className={`${classes.title} header-title`}>
             Au Revoir!
           </Typography>
-          {auth && (
-            <div>
-              <IconButton
+          {isLoggedIn && (
+            <>
+              <Button
+                edge="end"
                 aria-label="account of current user"
-                aria-controls="menu-appbar"
+                aria-controls={menuId}
                 aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
+                onClick={handleProfileMenuOpen}
               >
                 <AccountCircle />
-              </IconButton>
+                <span className="header-username">{`${currentUser.firstName} ${currentUser.lastName}`}</span>
+              </Button>
               <Menu
-                id="menu-appbar"
                 anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
+                anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                id={menuId}
                 keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={open}
-                onClose={handleClose}
+                transformOrigin={{ vertical: "top", horizontal: "right" }}
+                open={isMenuOpen}
+                onClose={handleMenuClose}
               >
-                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem onClick={logout}>Logout</MenuItem>
               </Menu>
-            </div>
+            </>
           )}
         </Toolbar>
       </AppBar>
@@ -95,3 +87,4 @@ export default function MenuAppBar() {
   );
 }
 
+export default Header;
