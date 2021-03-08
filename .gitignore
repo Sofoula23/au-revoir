@@ -153,4 +153,7 @@ dist
 !.vscode/extensions.json
 *.code-workspace
 
+
+client/build
+
 # End of https://www.toptal.com/developers/gitignore/api/vscode,node,macos
