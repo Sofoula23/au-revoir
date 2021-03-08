@@ -3,22 +3,21 @@ const tripSchema = new mongoose.Schema({
   name: String,
   destination: {
     continent: {
-    type: String,
-    enum: [
-      "europe",
-      "southAmerica",
-      "northAmerica",
-      "africa",
-      "asia",
-      "australia",
-      "antartica",
-    ],
+      type: String,
+      enum: [
+        "europe",
+        "southAmerica",
+        "northAmerica",
+        "africa",
+        "asia",
+        "australia",
+        "antartica",
+      ],
+    },
+    country: String,
+    province: String,
+    city: String,
   },
-  country: String,
-  province: String,
-  city: String,
-  }
-  completed: Boolean,
   stays: [
     {
       stayType: {
