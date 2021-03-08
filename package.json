@@ -19,8 +19,10 @@
     "nodemon": "^1.18.7"
   },
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "express": "^4.16.3",
     "if-env": "^1.0.4",
-    "mongoose": "^5.11.19"
+    "mongoose": "^5.11.19",
+    "react-router-dom": "^5.2.0"
   }
 }

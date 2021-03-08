@@ -1,10 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const Trip = require("../models/Trip"); 
+const Trip = require("../models/Trip");
 
 // define the home page route
-router.get("/", function (req, res) {
-  res.send("Birds home page");
+router.get("/", async function (req, res, next) {
+  const trips = await Trip.find();
+  res.status(200).send(trips);
+  next();
 });
 // define the about route
 router.post("/", async function (req, res, next) {
