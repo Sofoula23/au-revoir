@@ -2,39 +2,26 @@ const mongoose = require("mongoose");
 const tripSchema = new mongoose.Schema({
   name: String,
   destination: {
-    continent: {
-      type: String,
-      enum: [
-        "europe",
-        "southAmerica",
-        "northAmerica",
-        "africa",
-        "asia",
-        "australia",
-        "antartica",
-      ],
-    },
-    country: String,
-    province: String,
-    city: String,
+    name: String,
+    googlePlaceId: String,
+    googlePlaceResult: String,
   },
   stays: [
     {
+      name: String,
       stayType: {
         enum: ["hotel", "rental", "hostal", "couchsurf"],
       },
+      googlePlaceId: String,
+      googlePlaceResult: String,
       startDate: Date,
       endDate: Date,
     },
   ],
   restaurants: [
     {
-      name: String,
-      address: String,
-      address2: String,
-      city: String,
-      province: String,
-      postal: String,
+      googlePlaceId: String,
+      googlePlaceResult: String,
       completed: Boolean,
     },
   ],

@@ -1,8 +1,10 @@
+require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const tripRouter = require("./routers/tripRouter");
 const userRouter = require("./routers/userRouter");
+const placesRouter = require("./routers/placesRouter");
 const PORT = process.env.PORT || 3001;
 const app = express();
 
@@ -18,6 +20,7 @@ app.use(express.static("client/build"));
 // Define API routes here
 app.use("/api/trips", tripRouter);
 app.use("/api/users", userRouter);
+app.use("/api/places", placesRouter);
 // Send every other request to the React app
 // Define any API routes before this runs
 app.get("*", (req, res) => {
