@@ -6,3 +6,8 @@
 .header-username {
   margin-left: 4px;
 }
+
+.header-app-bar {
+  background: white;
+  color: black;
+}

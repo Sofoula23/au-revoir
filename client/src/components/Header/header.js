@@ -50,7 +50,7 @@ function Header() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" className="header-app-bar">
         <Toolbar>
           <img className="header-logo" alt="logo" src={logo} />
           <Typography variant="h6" className={`${classes.title} header-title`}>
