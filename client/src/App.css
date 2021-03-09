@@ -18,3 +18,7 @@
 .center {
   text-align: center;
 }
+
+.MuiBackdrop-root {
+  z-index: 1;
+}
