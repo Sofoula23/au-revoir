@@ -27,3 +27,14 @@
   bottom: 24px;
   right: 24px;
 }
+
+.trips-loading-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40%;
+}
+
+.trip-card {
+  height: 100%;
+}

@@ -10,6 +10,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { useCurrentUser } from "../../../context/UserContext";
 import noTripsImage from "../../../images/undraw_void_3ggu.svg";
@@ -20,17 +21,32 @@ function TripsPage() {
   const history = useHistory();
   const [currentUser] = useCurrentUser();
   const [trips, setTrips] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     // if user is not logged in, redirect to login page
     if (!currentUser) {
       history.push("/login");
     }
     const load = async () => {
-      const response = await axios.get("/api/trips");
-      setTrips(response.data);
+      try {
+        setIsLoading(true);
+        const response = await axios.get("/api/trips");
+        setTrips(response.data);
+      } finally {
+        setIsLoading(false);
+      }
     };
     load();
   }, []);
+
+  if (isLoading) {
+    return (
+      <div className="trips-loading-indicator">
+        <CircularProgress />
+      </div>
+    );
+  }
+
   if (!trips.length) {
     return (
       <div className="no-trips">
@@ -52,7 +68,7 @@ function TripsPage() {
       <Grid container spacing={2}>
         {trips.map((trip) => (
           <Grid item xs={12} sm={6} md={4}>
-            <Card>
+            <Card className="trip-card">
               <Link to={`/trips/${trip._id}`} className="trip-link">
                 <CardActionArea>
                   <CardMedia
