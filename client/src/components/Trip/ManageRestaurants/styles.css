@@ -5,3 +5,9 @@
 .manage-restaurant-dialog-list-item {
   display: flex;
 }
+
+.manage-restaurant-dialog-list-item-name {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}

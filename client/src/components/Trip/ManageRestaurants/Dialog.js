@@ -1,12 +1,8 @@
 import React, { useState } from "react";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import IconButton from "@material-ui/core/IconButton";
-import DeleteIcon from "@material-ui/icons/Delete";
 
-import ResponsiveDialog from "../../../ResponsiveDialog";
-import PlacesAutoComplete from "../../../PlacesAutoComplete";
+import ResponsiveDialog from "../../ResponsiveDialog";
+import PlacesAutoComplete from "../../PlacesAutoComplete";
+import ManageRestaurantsList from "./List";
 
 import "./styles.css";
 
@@ -30,6 +26,16 @@ function ManageRestaurantsDialog({
     onChange(newRestaurants);
   };
 
+  const updateVisited = (restaurant, visited) => {
+    const newRestaurants = restaurants.map((r) => {
+      if (r !== restaurant) {
+        return r;
+      }
+      return { ...r, visited };
+    });
+    onChange(newRestaurants);
+  };
+
   return (
     <ResponsiveDialog
       title="Restaurants"
@@ -48,24 +54,12 @@ function ManageRestaurantsDialog({
             value={inputValue}
             onChange={setInputValue}
           />
+          <ManageRestaurantsList
+            restaurants={restaurants}
+            onVisitedChange={updateVisited}
+            onRemove={removeRestaurant}
+          />
         </div>
-        <List>
-          {restaurants.map((restaurant) => (
-            <ListItem
-              key={restaurant.placeId}
-              className="manage-restaurant-dialog-list-item"
-            >
-              <ListItemText primary={restaurant.name} />
-              <IconButton
-                color="primary"
-                aria-label="Remove restaurant"
-                onClick={() => removeRestaurant(restaurant)}
-              >
-                <DeleteIcon />
-              </IconButton>
-            </ListItem>
-          ))}
-        </List>
       </div>
     </ResponsiveDialog>
   );

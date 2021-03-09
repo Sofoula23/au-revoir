@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Backdrop from "@material-ui/core/Backdrop";
 import SpeedDial from "@material-ui/lab/SpeedDial";
@@ -10,10 +11,19 @@ import FaceIcon from "@material-ui/icons/Face";
 import HotelIcon from "@material-ui/icons/Hotel";
 import RestaurantIcon from "@material-ui/icons/Restaurant";
 import NaturePeopleIcon from "@material-ui/icons/NaturePeople";
+import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
 
 import PlacesAutoComplete from "../PlacesAutoComplete";
-import ManageRestaurantsDialog from "./dialogs/ManageRestaurants";
+import {
+  ManageRestaurantsDialog,
+  ManageRestaurantsList,
+} from "./ManageRestaurants";
 
+import cevicheImage from "../../images/ceviche.jpg";
 import "./styles.css";
 
 const newTrip = {
@@ -37,21 +47,11 @@ function Trip({ trip }) {
   }, [trip]);
 
   const isNew = !currentTrip._id;
-  const actions = [
-    { icon: <FaceIcon />, name: "Traveler" },
-    { icon: <AirplanemodeActiveIcon />, name: "Flight" },
-    { icon: <HotelIcon />, name: "Stay" },
-    { icon: <NaturePeopleIcon />, name: "Activity" },
-    {
-      icon: <RestaurantIcon />,
-      name: "Restaurant",
-      onClick: () => {
-        setSelectedRestaurants(currentTrip.restaurants);
-        handleSpeedDialClose();
-        setRestaurantModalIsOpen(true);
-      },
-    },
-  ];
+
+  const openRestaurantsModal = () => {
+    setSelectedRestaurants(currentTrip.restaurants);
+    setRestaurantModalIsOpen(true);
+  };
 
   const handleSpeedDialOpen = () => {
     setSpeedDialIsOpen(true);
@@ -86,12 +86,44 @@ function Trip({ trip }) {
     setRestaurantModalIsOpen(false);
   };
 
+  const removeRestaurant = (restaurant) => {
+    const newRestaurants = currentTrip.restaurants.filter(
+      (r) => r !== restaurant
+    );
+    setCurrentTrip({ ...currentTrip, restaurants: newRestaurants });
+  };
+
+  const updateRestaurantVisitedStatus = (restaurant, visited) => {
+    const newRestaurants = currentTrip.restaurants.map((r) => {
+      if (r !== restaurant) {
+        return r;
+      }
+      return { ...r, visited };
+    });
+    setCurrentTrip({ ...currentTrip, restaurants: newRestaurants });
+  };
+
   const trimIsEmpty =
     !currentTrip.stays.length &&
     !currentTrip.restaurants.length &&
     !currentTrip.activities.length &&
     !currentTrip.flights.length &&
     !currentTrip.travelers.length;
+
+  const actions = [
+    { icon: <FaceIcon />, name: "Traveler" },
+    { icon: <AirplanemodeActiveIcon />, name: "Flight" },
+    { icon: <HotelIcon />, name: "Stay" },
+    { icon: <NaturePeopleIcon />, name: "Activity" },
+    {
+      icon: <RestaurantIcon />,
+      name: "Restaurant",
+      onClick: () => {
+        openRestaurantsModal();
+        handleSpeedDialClose();
+      },
+    },
+  ];
 
   return (
     <div className="trip">
@@ -114,6 +146,45 @@ function Trip({ trip }) {
           Your trip is empty, click on the + sign on the bottom right to begin.
         </div>
       )}
+      <div className="trip-cards">
+        <Grid container>
+          <Grid item sm={6} md={4}>
+            {Boolean(selectedCity && currentTrip.restaurants.length) && (
+              <div className="trip-restaurants">
+                <Card>
+                  <CardMedia
+                    component="img"
+                    alt="Contemplative Reptile"
+                    height="140"
+                    image={cevicheImage}
+                    title="Contemplative Reptile"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Restaurants
+                    </Typography>
+                    <ManageRestaurantsList
+                      restaurants={currentTrip.restaurants}
+                      onRemove={removeRestaurant}
+                      onVisitedChange={updateRestaurantVisitedStatus}
+                    />
+                  </CardContent>
+
+                  <CardActions>
+                    <Button
+                      size="small"
+                      color="primary"
+                      onClick={openRestaurantsModal}
+                    >
+                      Edit
+                    </Button>
+                  </CardActions>
+                </Card>
+              </div>
+            )}
+          </Grid>
+        </Grid>
+      </div>
 
       <div className="trip-speed-dial-container">
         <Backdrop open={speedDialIsOpen} />
