@@ -1,0 +1,14 @@
+.trip-page {
+  padding: 24px;
+}
+
+.trip-page-begin-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.trip-begin {
+  margin-top: 24px;
+}

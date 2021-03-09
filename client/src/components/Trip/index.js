@@ -12,12 +12,10 @@ import HotelIcon from "@material-ui/icons/Hotel";
 import RestaurantIcon from "@material-ui/icons/Restaurant";
 import NaturePeopleIcon from "@material-ui/icons/NaturePeople";
 import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 
-import PlacesAutoComplete from "../PlacesAutoComplete";
 import {
   ManageRestaurantsDialog,
   ManageRestaurantsList,
@@ -36,9 +34,7 @@ const newTrip = {
 
 function Trip({ trip }) {
   const [currentTrip, setCurrentTrip] = useState(newTrip);
-  const [cityInputValue, setCityInputValue] = useState("");
   const [speedDialIsOpen, setSpeedDialIsOpen] = useState(false);
-  const [selectedCity, setSelectedCity] = useState(null);
   const [selectedRestaurants, setSelectedRestaurants] = useState([]);
   const [restaurantModalIsOpen, setRestaurantModalIsOpen] = useState(null);
 
@@ -59,10 +55,6 @@ function Trip({ trip }) {
 
   const handleSpeedDialClose = () => {
     setSpeedDialIsOpen(false);
-  };
-
-  const handleCitySelect = (city) => {
-    setSelectedCity(city);
   };
 
   const saveRestaurant = () => {
@@ -125,23 +117,16 @@ function Trip({ trip }) {
     },
   ];
 
+  const locationCoordinates = `${currentTrip.city.geometry.location.lat},${currentTrip.city.geometry.location.lng}`;
+
   return (
     <div className="trip">
-      {/* <div className="trip-header">
+      <div className="trip-header">
         <Typography variant="h1" component="h2">
           Berlin, Germany
         </Typography>
-      </div> */}
-      <div className="trip-city-autocomplete">
-        <PlacesAutoComplete
-          value={cityInputValue}
-          onChange={setCityInputValue}
-          types="(cities)"
-          placeholder="Enter city"
-          onSelect={handleCitySelect}
-        />
       </div>
-      {Boolean(selectedCity) && trimIsEmpty && (
+      {trimIsEmpty && (
         <div className="trip-begin-instructions">
           Your trip is empty, click on the + sign on the bottom right to begin.
         </div>
@@ -149,7 +134,7 @@ function Trip({ trip }) {
       <div className="trip-cards">
         <Grid container>
           <Grid item sm={6} md={4}>
-            {Boolean(selectedCity && currentTrip.restaurants.length) && (
+            {Boolean(currentTrip.restaurants.length) && (
               <div className="trip-restaurants">
                 <Card>
                   <CardMedia
@@ -169,7 +154,6 @@ function Trip({ trip }) {
                       onVisitedChange={updateRestaurantVisitedStatus}
                     />
                   </CardContent>
-
                   <CardActions>
                     <Button
                       size="small"
@@ -195,7 +179,6 @@ function Trip({ trip }) {
           onClose={handleSpeedDialClose}
           onClick={handleSpeedDialOpen}
           open={speedDialIsOpen}
-          hidden={!Boolean(selectedCity)}
         >
           {actions.map((action) => (
             <SpeedDialAction
@@ -209,20 +192,18 @@ function Trip({ trip }) {
         </SpeedDial>
       </div>
 
-      {Boolean(selectedCity) && (
-        <ManageRestaurantsDialog
-          open={restaurantModalIsOpen}
-          restaurants={selectedRestaurants}
-          onClose={handleRestaurantModalClose}
-          onChange={handleRestaurantsChange}
-          location={`${selectedCity.geometry.location.lat},${selectedCity.geometry.location.lng}`}
-          saveButton={
-            <Button color="inherit" onClick={saveRestaurant}>
-              Save
-            </Button>
-          }
-        />
-      )}
+      <ManageRestaurantsDialog
+        open={restaurantModalIsOpen}
+        restaurants={selectedRestaurants}
+        onClose={handleRestaurantModalClose}
+        onChange={handleRestaurantsChange}
+        location={locationCoordinates}
+        saveButton={
+          <Button color="inherit" onClick={saveRestaurant}>
+            Save
+          </Button>
+        }
+      />
     </div>
   );
 }

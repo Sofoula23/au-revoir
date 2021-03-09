@@ -16,7 +16,7 @@ import Paper from "@material-ui/core/Paper";
 import isValidEmail from "../../../utils/isValidEmail";
 import { useCurrentUser } from "../../../context/UserContext";
 import backgroundImage from "../../../images/sunrise.JPG";
-import "./login.css";
+import "./styles.css";
 
 function Copyright() {
   return (

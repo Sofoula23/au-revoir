@@ -15,7 +15,7 @@ import Container from "@material-ui/core/Container";
 import { useCurrentUser } from "../../../context/UserContext";
 
 import isValidEmail from "../../../utils/isValidEmail";
-import "./register.css";
+import "./styles.css";
 
 function Copyright() {
   return (
