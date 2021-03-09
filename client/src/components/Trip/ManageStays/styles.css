@@ -1,0 +1,13 @@
+.manage-stay-dialog-body {
+  padding: 24px;
+}
+
+.manage-stay-dialog-list-item {
+  display: flex;
+}
+
+.manage-stay-dialog-list-item-name {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}

@@ -23,7 +23,8 @@ import {
   ManageRestaurantsList,
 } from "./ManageRestaurants";
 
-import cevicheImage from "../../images/ceviche.jpg";
+import { ManageStaysDialog, ManageStaysList } from "./ManageStays";
+
 import "./styles.css";
 
 function Trip({ trip }) {
@@ -32,6 +33,8 @@ function Trip({ trip }) {
   const [speedDialIsOpen, setSpeedDialIsOpen] = useState(false);
   const [selectedRestaurants, setSelectedRestaurants] = useState([]);
   const [restaurantModalIsOpen, setRestaurantModalIsOpen] = useState(null);
+  const [selectedStays, setSelectedStays] = useState([]);
+  const [stayModalIsOpen, setStayModalIsOpen] = useState(null);
 
   useEffect(() => {
     setCurrentTrip(trip);
@@ -51,11 +54,6 @@ function Trip({ trip }) {
     updateTrip();
   }, [tripToSave]);
 
-  const openRestaurantsModal = () => {
-    setSelectedRestaurants(currentTrip.restaurants);
-    setRestaurantModalIsOpen(true);
-  };
-
   const handleSpeedDialOpen = () => {
     setSpeedDialIsOpen(true);
   };
@@ -69,6 +67,15 @@ function Trip({ trip }) {
     setTripToSave(trip);
   };
 
+  const openRestaurantsModal = () => {
+    setSelectedRestaurants(currentTrip.restaurants);
+    setRestaurantModalIsOpen(true);
+  };
+
+  const handleRestaurantModalClose = () => {
+    setRestaurantModalIsOpen(false);
+  };
+
   const saveRestaurant = () => {
     handleRestaurantModalClose();
     saveTrip({
@@ -79,10 +86,6 @@ function Trip({ trip }) {
 
   const handleRestaurantsChange = (restaurants) => {
     setSelectedRestaurants(restaurants);
-  };
-
-  const handleRestaurantModalClose = () => {
-    setRestaurantModalIsOpen(false);
   };
 
   const removeRestaurant = (restaurant) => {
@@ -102,6 +105,32 @@ function Trip({ trip }) {
     saveTrip({ ...currentTrip, restaurants: newRestaurants });
   };
 
+  const openStaysModal = () => {
+    setSelectedStays(currentTrip.stays);
+    setStayModalIsOpen(true);
+  };
+
+  const handleStayModalClose = () => {
+    setStayModalIsOpen(false);
+  };
+
+  const saveStay = () => {
+    handleStayModalClose();
+    saveTrip({
+      ...currentTrip,
+      stays: selectedStays,
+    });
+  };
+
+  const handleStaysChange = (stays) => {
+    setSelectedStays(stays);
+  };
+
+  const removeStay = (stay) => {
+    const newStays = currentTrip.stays.filter((r) => r !== stay);
+    saveTrip({ ...currentTrip, stays: newStays });
+  };
+
   const tripIsEmpty =
     !currentTrip.stays.length &&
     !currentTrip.restaurants.length &&
@@ -112,7 +141,14 @@ function Trip({ trip }) {
   const actions = [
     { icon: <FaceIcon />, name: "Traveler" },
     { icon: <AirplanemodeActiveIcon />, name: "Flight" },
-    { icon: <HotelIcon />, name: "Stay" },
+    {
+      icon: <HotelIcon />,
+      name: "Stay",
+      onClick: () => {
+        openStaysModal();
+        handleSpeedDialClose();
+      },
+    },
     { icon: <NaturePeopleIcon />, name: "Activity" },
     {
       icon: <RestaurantIcon />,
@@ -153,10 +189,10 @@ function Trip({ trip }) {
                 <Card>
                   <CardMedia
                     component="img"
-                    alt={currentTrip.destination.formatted_address}
+                    alt="Trip Restaurants"
                     height="140"
                     image={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${currentTrip.restaurants[0].place.photos[0].photo_reference}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
-                    title={currentTrip.destination.formatted_address}
+                    title="Trip Restaurants"
                   />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
@@ -173,6 +209,39 @@ function Trip({ trip }) {
                       size="small"
                       color="primary"
                       onClick={openRestaurantsModal}
+                    >
+                      Edit
+                    </Button>
+                  </CardActions>
+                </Card>
+              </div>
+            )}
+          </Grid>
+          <Grid item sm={6} md={4}>
+            {Boolean(currentTrip.stays.length) && (
+              <div className="trip-stays">
+                <Card>
+                  <CardMedia
+                    component="img"
+                    alt="Trip Stays"
+                    height="140"
+                    image={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${currentTrip.stays[0].place.photos[0].photo_reference}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
+                    title="Trip Stays"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Stays
+                    </Typography>
+                    <ManageStaysList
+                      stays={currentTrip.stays}
+                      onRemove={removeStay}
+                    />
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      size="small"
+                      color="primary"
+                      onClick={openStaysModal}
                     >
                       Edit
                     </Button>
@@ -214,6 +283,18 @@ function Trip({ trip }) {
         location={locationCoordinates}
         saveButton={
           <Button color="inherit" onClick={saveRestaurant}>
+            Save
+          </Button>
+        }
+      />
+      <ManageStaysDialog
+        open={stayModalIsOpen}
+        stays={selectedStays}
+        onClose={handleStayModalClose}
+        onChange={handleStaysChange}
+        location={locationCoordinates}
+        saveButton={
+          <Button color="inherit" onClick={saveStay}>
             Save
           </Button>
         }
