@@ -21,3 +21,9 @@
   text-decoration: none;
   color: inherit;
 }
+
+.create-new-trip-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+}

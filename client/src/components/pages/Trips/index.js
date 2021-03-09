@@ -4,15 +4,15 @@ import axios from "axios";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import Fab from "@material-ui/core/Fab";
+import AddIcon from "@material-ui/icons/Add";
 
 import { useCurrentUser } from "../../../context/UserContext";
 import noTripsImage from "../../../images/undraw_void_3ggu.svg";
-import cevicheImage from "../../../images/ceviche.jpg";
 
 import "./styles.css";
 
@@ -73,6 +73,11 @@ function TripsPage() {
           </Grid>
         ))}
       </Grid>
+      <Link to="/trips/new" className="create-new-trip-fab">
+        <Fab color="primary" aria-label="add">
+          <AddIcon />
+        </Fab>
+      </Link>
     </div>
   );
 }
