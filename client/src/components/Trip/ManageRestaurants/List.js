@@ -27,9 +27,9 @@ function ManageRestaurantsList({ restaurants, onVisitedChange, onRemove }) {
             />
           </div>
           <div className="manage-restaurant-dialog-list-item-name">
-            <ListItemText primary={restaurant.name} />
+            <ListItemText primary={restaurant.place.name} />
             <Typography variant="body2" color="textSecondary">
-              {restaurant.formatted_address}
+              {restaurant.place.formatted_address}
             </Typography>
           </div>
 

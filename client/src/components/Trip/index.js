@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Typography from "@material-ui/core/Typography";
+import Hidden from "@material-ui/core/Hidden";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -24,25 +26,30 @@ import {
 import cevicheImage from "../../images/ceviche.jpg";
 import "./styles.css";
 
-const newTrip = {
-  stays: [],
-  restaurants: [],
-  activities: [],
-  flights: [],
-  travelers: [],
-};
-
 function Trip({ trip }) {
-  const [currentTrip, setCurrentTrip] = useState(newTrip);
+  const [currentTrip, setCurrentTrip] = useState(trip);
+  const [tripToSave, setTripToSave] = useState(null);
   const [speedDialIsOpen, setSpeedDialIsOpen] = useState(false);
   const [selectedRestaurants, setSelectedRestaurants] = useState([]);
   const [restaurantModalIsOpen, setRestaurantModalIsOpen] = useState(null);
 
   useEffect(() => {
-    setCurrentTrip(trip || newTrip);
+    setCurrentTrip(trip);
   }, [trip]);
 
-  const isNew = !currentTrip._id;
+  useEffect(() => {
+    if (!tripToSave) {
+      return;
+    }
+    const updateTrip = async () => {
+      const response = await axios.put(
+        `/api/trips/${tripToSave._id}`,
+        tripToSave
+      );
+      setCurrentTrip(response.data);
+    };
+    updateTrip();
+  }, [tripToSave]);
 
   const openRestaurantsModal = () => {
     setSelectedRestaurants(currentTrip.restaurants);
@@ -57,17 +64,17 @@ function Trip({ trip }) {
     setSpeedDialIsOpen(false);
   };
 
+  const saveTrip = (trip) => {
+    setCurrentTrip(trip);
+    setTripToSave(trip);
+  };
+
   const saveRestaurant = () => {
     handleRestaurantModalClose();
-    if (isNew) {
-      setCurrentTrip({
-        ...currentTrip,
-        restaurants: selectedRestaurants,
-      });
-    } else {
-      // call API to save new restaurant
-      // setTrip(tripFromAPI)
-    }
+    saveTrip({
+      ...currentTrip,
+      restaurants: selectedRestaurants,
+    });
   };
 
   const handleRestaurantsChange = (restaurants) => {
@@ -82,7 +89,7 @@ function Trip({ trip }) {
     const newRestaurants = currentTrip.restaurants.filter(
       (r) => r !== restaurant
     );
-    setCurrentTrip({ ...currentTrip, restaurants: newRestaurants });
+    saveTrip({ ...currentTrip, restaurants: newRestaurants });
   };
 
   const updateRestaurantVisitedStatus = (restaurant, visited) => {
@@ -92,10 +99,10 @@ function Trip({ trip }) {
       }
       return { ...r, visited };
     });
-    setCurrentTrip({ ...currentTrip, restaurants: newRestaurants });
+    saveTrip({ ...currentTrip, restaurants: newRestaurants });
   };
 
-  const trimIsEmpty =
+  const tripIsEmpty =
     !currentTrip.stays.length &&
     !currentTrip.restaurants.length &&
     !currentTrip.activities.length &&
@@ -117,32 +124,39 @@ function Trip({ trip }) {
     },
   ];
 
-  const locationCoordinates = `${currentTrip.city.geometry.location.lat},${currentTrip.city.geometry.location.lng}`;
+  const locationCoordinates = `${currentTrip.destination.geometry.location.lat},${currentTrip.destination.geometry.location.lng}`;
 
   return (
     <div className="trip">
       <div className="trip-header">
-        <Typography variant="h1" component="h2">
-          Berlin, Germany
-        </Typography>
+        <Hidden smDown>
+          <Typography variant="h2" component="h1">
+            {currentTrip.destination.formatted_address}
+          </Typography>
+        </Hidden>
+        <Hidden mdUp>
+          <Typography variant="h5" component="h1">
+            {currentTrip.destination.formatted_address}
+          </Typography>
+        </Hidden>
       </div>
-      {trimIsEmpty && (
+      {tripIsEmpty && (
         <div className="trip-begin-instructions">
           Your trip is empty, click on the + sign on the bottom right to begin.
         </div>
       )}
       <div className="trip-cards">
-        <Grid container>
+        <Grid container spacing={2}>
           <Grid item sm={6} md={4}>
             {Boolean(currentTrip.restaurants.length) && (
               <div className="trip-restaurants">
                 <Card>
                   <CardMedia
                     component="img"
-                    alt="Contemplative Reptile"
+                    alt={currentTrip.destination.formatted_address}
                     height="140"
                     image={cevicheImage}
-                    title="Contemplative Reptile"
+                    title={currentTrip.destination.formatted_address}
                   />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">

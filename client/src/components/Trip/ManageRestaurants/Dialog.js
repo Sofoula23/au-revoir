@@ -16,8 +16,8 @@ function ManageRestaurantsDialog({
 }) {
   const [inputValue, setInputValue] = useState("");
 
-  const handleRestaurantSelection = (restaurant) => {
-    onChange([...restaurants, restaurant]);
+  const handleRestaurantSelection = (place) => {
+    onChange([...restaurants, { place }]);
     setInputValue("");
   };
 

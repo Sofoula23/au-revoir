@@ -26,9 +26,7 @@ function TripPage() {
 
   useEffect(() => {
     const load = async () => {
-      const response = await axios.post(`/trips/${id}`, {
-        city: selectedCity,
-      });
+      const response = await axios.get(`/api/trips/${id}`);
       setTrip(response.data);
     };
     load();
@@ -41,8 +39,8 @@ function TripPage() {
   };
 
   const saveNewTrip = async () => {
-    const response = await axios.post("/trips", {
-      city: selectedCity,
+    const response = await axios.post("/api/trips", {
+      destination: selectedCity,
     });
     history.push(`/trips/${response.data._id}`);
   };
@@ -74,7 +72,7 @@ function TripPage() {
           </div>
         </div>
       )}
-      {!isNew && (
+      {Boolean(!isNew && trip) && (
         <div className="trip-page-body">
           <Trip trip={trip} />
         </div>
