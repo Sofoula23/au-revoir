@@ -18,6 +18,7 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 
+import getPlaceImageUrl from "../../utils/getPlaceImageUrl";
 import {
   ManageRestaurantsDialog,
   ManageRestaurantsList,
@@ -25,6 +26,8 @@ import {
 
 import { ManageStaysDialog, ManageStaysList } from "./ManageStays";
 
+import defaultRestaurantImage from "../../images/default-restaurant.svg";
+import defaultStayImage from "../../images/default-stay.svg";
 import "./styles.css";
 
 function Trip({ trip }) {
@@ -191,7 +194,10 @@ function Trip({ trip }) {
                     component="img"
                     alt="Trip Restaurants"
                     height="140"
-                    image={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${currentTrip.restaurants[0].place.photos[0].photo_reference}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
+                    image={getPlaceImageUrl(
+                      trip.restaurants[0].place,
+                      defaultRestaurantImage
+                    )}
                     title="Trip Restaurants"
                   />
                   <CardContent>
@@ -225,7 +231,10 @@ function Trip({ trip }) {
                     component="img"
                     alt="Trip Stays"
                     height="140"
-                    image={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${currentTrip.stays[0].place.photos[0].photo_reference}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
+                    image={getPlaceImageUrl(
+                      trip.stays[0].place,
+                      defaultStayImage
+                    )}
                     title="Trip Stays"
                   />
                   <CardContent>

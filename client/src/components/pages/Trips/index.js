@@ -13,8 +13,10 @@ import AddIcon from "@material-ui/icons/Add";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { useCurrentUser } from "../../../context/UserContext";
+import getPlaceImageUrl from "../../../utils/getPlaceImageUrl";
 import CreateTripDialog from "../../CreateTripDialog";
-import noTripsImage from "../../../images/undraw_void_3ggu.svg";
+import noTripsImage from "../../../images/no-trips.svg";
+import defaultTripImage from "../../../images/default-trip.svg";
 
 import "./styles.css";
 
@@ -99,7 +101,7 @@ function TripsPage() {
                     component="img"
                     alt={trip.destination.formatted_address}
                     height="140"
-                    image={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${trip.destination.photos[0].photo_reference}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
+                    image={getPlaceImageUrl(trip.destination, defaultTripImage)}
                     title={trip.destination.formatted_address}
                   />
                   <CardContent>
