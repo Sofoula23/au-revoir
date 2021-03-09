@@ -155,7 +155,7 @@ function Trip({ trip }) {
                     component="img"
                     alt={currentTrip.destination.formatted_address}
                     height="140"
-                    image={cevicheImage}
+                    image={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${currentTrip.restaurants[0].place.photos[0].photo_reference}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
                     title={currentTrip.destination.formatted_address}
                   />
                   <CardContent>
