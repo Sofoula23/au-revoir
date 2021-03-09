@@ -16,3 +16,8 @@
 .trips-page {
   padding: 24px;
 }
+
+.trip-link {
+  text-decoration: none;
+  color: inherit;
+}
