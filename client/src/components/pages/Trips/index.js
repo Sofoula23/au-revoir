@@ -13,6 +13,7 @@ import AddIcon from "@material-ui/icons/Add";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { useCurrentUser } from "../../../context/UserContext";
+import CreateTripDialog from "../../CreateTripDialog";
 import noTripsImage from "../../../images/undraw_void_3ggu.svg";
 
 import "./styles.css";
@@ -22,6 +23,8 @@ function TripsPage() {
   const [currentUser] = useCurrentUser();
   const [trips, setTrips] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [createDialogIsOpen, setCreateDialogIsOpen] = useState(false);
+
   useEffect(() => {
     // if user is not logged in, redirect to login page
     if (!currentUser) {
@@ -39,6 +42,19 @@ function TripsPage() {
     load();
   }, []);
 
+  const openCreateTripDialog = () => {
+    setCreateDialogIsOpen(true);
+  };
+
+  const handleCreateDialogClose = () => {
+    setCreateDialogIsOpen(false);
+  };
+
+  const handleTripSave = (trip) => {
+    history.push(`/trips/${trip._id}`);
+    handleCreateDialogClose();
+  };
+
   if (isLoading) {
     return (
       <div className="trips-loading-indicator">
@@ -54,11 +70,19 @@ function TripsPage() {
           No Trips Found
         </Typography>
         <img src={noTripsImage} className="no-trips-image" />
-        <Link to="/trips/new">
-          <Button type="button" variant="contained" color="primary">
-            Create a Trip
-          </Button>
-        </Link>
+        <Button
+          type="button"
+          variant="contained"
+          color="primary"
+          onClick={openCreateTripDialog}
+        >
+          Create a Trip
+        </Button>
+        <CreateTripDialog
+          open={createDialogIsOpen}
+          onClose={handleCreateDialogClose}
+          onSave={handleTripSave}
+        />
       </div>
     );
   }
@@ -89,11 +113,19 @@ function TripsPage() {
           </Grid>
         ))}
       </Grid>
-      <Link to="/trips/new" className="create-new-trip-fab">
-        <Fab color="primary" aria-label="add">
-          <AddIcon />
-        </Fab>
-      </Link>
+      <Fab
+        color="primary"
+        aria-label="add"
+        className="create-new-trip-fab"
+        onClick={openCreateTripDialog}
+      >
+        <AddIcon />
+      </Fab>
+      <CreateTripDialog
+        open={createDialogIsOpen}
+        onClose={handleCreateDialogClose}
+        onSave={handleTripSave}
+      />
     </div>
   );
 }
