@@ -1,28 +1,18 @@
 const mongoose = require("mongoose");
 const tripSchema = new mongoose.Schema({
   name: String,
-  destination: {
-    name: String,
-    googlePlaceId: String,
-    googlePlaceResult: String,
-  },
+  destination: mongoose.Schema.Types.Mixed,
   stays: [
     {
-      name: String,
-      stayType: {
-        enum: ["hotel", "rental", "hostal", "couchsurf"],
-      },
-      googlePlaceId: String,
-      googlePlaceResult: String,
+      place: mongoose.Schema.Types.Mixed,
       startDate: Date,
       endDate: Date,
     },
   ],
   restaurants: [
     {
-      googlePlaceId: String,
-      googlePlaceResult: String,
-      completed: Boolean,
+      place: mongoose.Schema.Types.Mixed,
+      visited: Boolean,
     },
   ],
   activities: [
