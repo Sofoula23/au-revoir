@@ -20,5 +20,5 @@
 }
 
 .MuiBackdrop-root {
-  z-index: 1;
+  z-index: initial;
 }
