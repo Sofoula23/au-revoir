@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link as RouterLink } from "react-router-dom";
 import logo from "../../logo.svg";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -50,10 +50,17 @@ function Header() {
     <div className={classes.root}>
       <AppBar position="static" className="header-app-bar">
         <Toolbar>
-          <img className="header-logo" alt="logo" src={logo} />
-          <Typography variant="h6" className={`${classes.title} header-title`}>
-            Au Revoir!
-          </Typography>
+          <div className="header-logo">
+            <RouterLink className="header-logo-link" to="/">
+              <img className="header-logo-image" alt="logo" src={logo} />
+              <Typography
+                variant="h6"
+                className={`${classes.title} header-title`}
+              >
+                Au Revoir!
+              </Typography>
+            </RouterLink>
+          </div>
           {isLoggedIn && (
             <>
               <Button
