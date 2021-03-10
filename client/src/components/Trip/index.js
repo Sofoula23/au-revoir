@@ -195,7 +195,7 @@ function Trip({ trip }) {
                     alt="Trip Restaurants"
                     height="140"
                     image={getPlaceImageUrl(
-                      trip.restaurants[0].place,
+                      currentTrip.restaurants[0].place,
                       defaultRestaurantImage
                     )}
                     title="Trip Restaurants"
@@ -232,7 +232,7 @@ function Trip({ trip }) {
                     alt="Trip Stays"
                     height="140"
                     image={getPlaceImageUrl(
-                      trip.stays[0].place,
+                      currentTrip.stays[0].place,
                       defaultStayImage
                     )}
                     title="Trip Stays"
