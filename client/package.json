@@ -1,7 +1,7 @@
 {
-  "name": "mern",
-  "version": "0.1.0",
-  "description": "Mern Demo",
+  "name": "au-revoir-client",
+  "version": "1.0.0",
+  "description": "Au Revoir Client project",
   "private": true,
   "proxy": "http://localhost:3001/",
   "dependencies": {

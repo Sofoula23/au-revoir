@@ -8,7 +8,7 @@ const placesRouter = require("./routers/placesRouter");
 const PORT = process.env.PORT || 3001;
 const app = express();
 
-mongoose.connect("mongodb://localhost/auRevoir", {
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/aurevoir", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
