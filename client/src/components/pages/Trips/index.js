@@ -35,7 +35,7 @@ function TripsPage() {
     const load = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get("/api/trips");
+        const response = await axios.get(`/api/users/${currentUser._id}/trips`);
         setTrips(response.data);
       } finally {
         setIsLoading(false);

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
+const Trip = require("../models/Trip");
 const bcrypt = require("bcrypt");
 
 // salt rounds to has password
@@ -32,6 +33,7 @@ router.post("/", async function (req, res, next) {
 
     // create object without user password because it is unsafe to do that
     const returnUser = {
+      _id: newUser._id,
       firstName: newUser.firstName,
       lastName: newUser.lastName,
       email: newUser.email,
@@ -70,11 +72,23 @@ router.post("/login", async function (req, res, next) {
 
     // create object without user password because it is unsafe to do that
     const returnUser = {
+      _id: existingUser._id,
       firstName: existingUser.firstName,
       lastName: existingUser.lastName,
       email: existingUser.email,
     };
     res.status(200).send(returnUser);
+    next();
+  } catch (e) {
+    next(e);
+  }
+});
+
+// this route is for getting all trips of an user
+router.get("/:userId/trips", async function (req, res, next) {
+  try {
+    const trips = await Trip.find({ user: req.params.userId });
+    res.status(200).send(trips);
     next();
   } catch (e) {
     next(e);

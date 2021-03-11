@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Button from "@material-ui/core/Button";
 
+import { useCurrentUser } from "../../context/UserContext";
 import ResponsiveDialog from "../ResponsiveDialog";
 import PlacesAutoComplete from "../PlacesAutoComplete";
 
@@ -10,6 +11,7 @@ import "./styles.css";
 function CreateTripDialog({ open, onClose, onSave }) {
   const [selectedCity, setSelectedCity] = useState(null);
   const [cityInputValue, setCityInputValue] = useState("");
+  const [currentUser] = useCurrentUser();
 
   const handleCitySelect = (city) => {
     setSelectedCity(city);
@@ -18,6 +20,7 @@ function CreateTripDialog({ open, onClose, onSave }) {
   const saveNewTrip = async () => {
     const response = await axios.post("/api/trips", {
       destination: selectedCity,
+      user: currentUser._id,
     });
     onSave(response.data);
   };
