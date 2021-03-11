@@ -8,7 +8,7 @@ const endSession = () => {
   localStorage.removeItem("user");
 };
 
-const getCurrentUser = (user) => {
+const getCurrentUser = () => {
   const userJson = localStorage.getItem("user");
   if (!userJson) {
     return null;
