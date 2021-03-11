@@ -1,5 +1,5 @@
 import React from "react";
-import { HashRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { StylesProvider } from "@material-ui/core/styles";
 
 import UserContextProvider from "./context/UserContext";
