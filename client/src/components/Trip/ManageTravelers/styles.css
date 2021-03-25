@@ -1,0 +1,25 @@
+.manage-traveler-dialog-body {
+  padding: 24px;
+}
+
+.manage-traveler-dialog-list-item {
+  display: flex;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.manage-traveler-dialog-form {
+  text-align: center;
+  justify-content: center;
+}
+
+.manage-traveler-dialog-name-field {
+  flex: 0 0 auto;
+}
+
+.manage-traveler-dialog-age-field {
+  flex: 0 0 auto;
+}
+
+.manage-traveler-dialog-add-btn {
+}

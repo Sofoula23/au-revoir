@@ -51,7 +51,6 @@ const tripSchema = new mongoose.Schema({
   travelers: [
     {
       name: String,
-      profilePicture: String,
       age: Number,
     },
   ],

@@ -23,11 +23,12 @@ import {
   ManageRestaurantsDialog,
   ManageRestaurantsList,
 } from "./ManageRestaurants";
-
 import { ManageStaysDialog, ManageStaysList } from "./ManageStays";
+import { ManageTravelersDialog, ManageTravelersList } from "./ManageTravelers";
 
 import defaultRestaurantImage from "../../images/default-restaurant.svg";
 import defaultStayImage from "../../images/default-stay.svg";
+import defaultTravelerImage from "../../images/default-traveler.svg";
 import "./styles.css";
 
 function Trip({ trip }) {
@@ -37,7 +38,9 @@ function Trip({ trip }) {
   const [selectedRestaurants, setSelectedRestaurants] = useState([]);
   const [restaurantModalIsOpen, setRestaurantModalIsOpen] = useState(null);
   const [selectedStays, setSelectedStays] = useState([]);
+  const [selectedTravelers, setSelectedTravelers] = useState([]);
   const [stayModalIsOpen, setStayModalIsOpen] = useState(null);
+  const [travelerModalIsOpen, setTravelerModalIsOpen] = useState(null);
 
   useEffect(() => {
     setCurrentTrip(trip);
@@ -134,6 +137,32 @@ function Trip({ trip }) {
     saveTrip({ ...currentTrip, stays: newStays });
   };
 
+  const openTravelersModal = () => {
+    setSelectedTravelers(currentTrip.travelers);
+    setTravelerModalIsOpen(true);
+  };
+
+  const handleTravelerModalClose = () => {
+    setTravelerModalIsOpen(false);
+  };
+
+  const saveTraveler = () => {
+    handleTravelerModalClose();
+    saveTrip({
+      ...currentTrip,
+      travelers: selectedTravelers,
+    });
+  };
+
+  const handleTravelersChange = (travelers) => {
+    setSelectedTravelers(travelers);
+  };
+
+  const removeTraveler = (traveler) => {
+    const newTravelers = currentTrip.travelers.filter((r) => r !== traveler);
+    saveTrip({ ...currentTrip, travelers: newTravelers });
+  };
+
   const tripIsEmpty =
     !currentTrip.stays.length &&
     !currentTrip.restaurants.length &&
@@ -142,7 +171,14 @@ function Trip({ trip }) {
     !currentTrip.travelers.length;
 
   const actions = [
-    { icon: <FaceIcon />, name: "Traveler" },
+    {
+      icon: <FaceIcon />,
+      name: "Traveler",
+      onClick: () => {
+        openTravelersModal();
+        handleSpeedDialClose();
+      },
+    },
     { icon: <AirplanemodeActiveIcon />, name: "Flight" },
     {
       icon: <HotelIcon />,
@@ -186,8 +222,8 @@ function Trip({ trip }) {
       )}
       <div className="trip-cards">
         <Grid container spacing={2}>
-          <Grid item sm={6} md={4}>
-            {Boolean(currentTrip.restaurants.length) && (
+          {Boolean(currentTrip.restaurants.length) && (
+            <Grid item sm={6} md={4}>
               <div className="trip-restaurants">
                 <Card>
                   <CardMedia
@@ -221,10 +257,10 @@ function Trip({ trip }) {
                   </CardActions>
                 </Card>
               </div>
-            )}
-          </Grid>
-          <Grid item sm={6} md={4}>
-            {Boolean(currentTrip.stays.length) && (
+            </Grid>
+          )}
+          {Boolean(currentTrip.stays.length) && (
+            <Grid item sm={6} md={4}>
               <div className="trip-stays">
                 <Card>
                   <CardMedia
@@ -257,8 +293,41 @@ function Trip({ trip }) {
                   </CardActions>
                 </Card>
               </div>
-            )}
-          </Grid>
+            </Grid>
+          )}
+          {Boolean(currentTrip.travelers.length) && (
+            <Grid item sm={6} md={4}>
+              <div className="trip-travelers">
+                <Card>
+                  <CardMedia
+                    component="img"
+                    alt="Trip Travelers"
+                    height="140"
+                    image={defaultTravelerImage}
+                    title="Trip Travelers"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Travelers
+                    </Typography>
+                    <ManageTravelersList
+                      travelers={currentTrip.travelers}
+                      onRemove={removeTraveler}
+                    />
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      size="small"
+                      color="primary"
+                      onClick={openTravelersModal}
+                    >
+                      Edit
+                    </Button>
+                  </CardActions>
+                </Card>
+              </div>
+            </Grid>
+          )}
         </Grid>
       </div>
 
@@ -304,6 +373,17 @@ function Trip({ trip }) {
         location={locationCoordinates}
         saveButton={
           <Button color="inherit" onClick={saveStay}>
+            Save
+          </Button>
+        }
+      />
+      <ManageTravelersDialog
+        open={travelerModalIsOpen}
+        travelers={selectedTravelers}
+        onClose={handleTravelerModalClose}
+        onChange={handleTravelersChange}
+        saveButton={
+          <Button color="inherit" onClick={saveTraveler}>
             Save
           </Button>
         }
