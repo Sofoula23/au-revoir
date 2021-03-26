@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const tripSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   name: String,
+  startDate: Date,
+  endDate: Date,
   destination: mongoose.Schema.Types.Mixed,
   stays: [
     {
@@ -34,18 +36,6 @@ const tripSchema = new mongoose.Schema({
           "sightseeing",
         ],
       },
-    },
-  ],
-  flights: [
-    {
-      flightNumber: String,
-      airline: String,
-      itinerary: String,
-      seats: [
-        {
-          type: String,
-        },
-      ],
     },
   ],
   travelers: [

@@ -201,7 +201,6 @@ function Trip({ trip }) {
     !currentTrip.stays.length &&
     !currentTrip.restaurants.length &&
     !currentTrip.activities.length &&
-    !currentTrip.flights.length &&
     !currentTrip.travelers.length;
 
   const actions = [
@@ -213,7 +212,6 @@ function Trip({ trip }) {
         handleSpeedDialClose();
       },
     },
-    { icon: <AirplanemodeActiveIcon />, name: "Flight" },
     {
       icon: <HotelIcon />,
       name: "Stay",
