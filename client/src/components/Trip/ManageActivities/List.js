@@ -14,55 +14,58 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Typography from "@material-ui/core/Typography";
 
-import { getInitials } from "../../../utils/getInitials";
-
+import activityTypes from "./activityTypes";
 import "./styles.css";
 
-function ManageTravelersList({ travelers, onRemove }) {
-  const [travelerToRemove, setTravelerToRemove] = useState(null);
+function ManageActivitiesList({ activities, onRemove }) {
+  const [activityToRemove, setActivityToRemove] = useState(null);
 
-  const openRemoveConfirmation = (traveler) => {
-    setTravelerToRemove(traveler);
+  const openRemoveConfirmation = (activity) => {
+    setActivityToRemove(activity);
   };
 
   const closeRemoveConfirmation = () => {
-    setTravelerToRemove(null);
+    setActivityToRemove(null);
   };
 
   const confirmRemoval = () => {
     closeRemoveConfirmation();
-    onRemove(travelerToRemove);
+    onRemove(activityToRemove);
   };
 
   return (
     <List>
-      {travelers.map((traveler, index) => (
-        <ListItem
-          key={`${traveler.name}-${traveler.age}-${index}`}
-          className="manage-traveler-dialog-list-item"
-        >
-          <ListItemAvatar>
-            <Avatar alt={traveler.name}>{getInitials(traveler.name)}</Avatar>
-          </ListItemAvatar>
-          <div className="manage-traveler-dialog-list-item-details">
-            <ListItemText primary={traveler.name} />
-            <Typography variant="body2" color="textSecondary">
-              {`Age: ${traveler.age}`}
-            </Typography>
-          </div>
-
-          <IconButton
-            color="primary"
-            aria-label="Remove traveler"
-            onClick={() => openRemoveConfirmation(traveler)}
+      {activities.map((activity, index) => {
+        const activityType = activityTypes.find(
+          (at) => at.key === activity.activityType
+        );
+        return (
+          <ListItem
+            key={`${activity.name}-${activity.age}-${index}`}
+            className="manage-activity-dialog-list-item"
           >
-            <DeleteIcon />
-          </IconButton>
-        </ListItem>
-      ))}
+            <ListItemAvatar>
+              <Avatar>{activityType.icon}</Avatar>
+            </ListItemAvatar>
+            <div className="manage-activity-dialog-list-item-details">
+              <ListItemText primary={activity.description} />
+              <Typography variant="body2" color="textSecondary">
+                {activityType.label}
+              </Typography>
+            </div>
+            <IconButton
+              color="primary"
+              aria-label="Remove activity"
+              onClick={() => openRemoveConfirmation(activity)}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </ListItem>
+        );
+      })}
 
       <Dialog
-        open={Boolean(travelerToRemove)}
+        open={Boolean(activityToRemove)}
         onClose={closeRemoveConfirmation}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
@@ -70,7 +73,7 @@ function ManageTravelersList({ travelers, onRemove }) {
         <DialogTitle id="alert-dialog-title">Confirm Removal</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Are you sure you want to delete this traveler?
+            Are you sure you want to delete this activity?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -86,4 +89,4 @@ function ManageTravelersList({ travelers, onRemove }) {
   );
 }
 
-export default ManageTravelersList;
+export default ManageActivitiesList;

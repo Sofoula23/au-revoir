@@ -21,5 +21,6 @@
   flex: 0 0 auto;
 }
 
-.manage-traveler-dialog-add-btn {
+.manage-traveler-dialog-list-item-details {
+  flex: 1 1 auto;
 }

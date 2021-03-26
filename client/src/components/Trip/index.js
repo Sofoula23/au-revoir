@@ -25,10 +25,15 @@ import {
 } from "./ManageRestaurants";
 import { ManageStaysDialog, ManageStaysList } from "./ManageStays";
 import { ManageTravelersDialog, ManageTravelersList } from "./ManageTravelers";
+import {
+  ManageActivitiesDialog,
+  ManageActivitiesList,
+} from "./ManageActivities";
 
 import defaultRestaurantImage from "../../images/default-restaurant.svg";
 import defaultStayImage from "../../images/default-stay.svg";
 import defaultTravelerImage from "../../images/default-traveler.svg";
+import defaultActivityImage from "../../images/default-activity.svg";
 import "./styles.css";
 
 function Trip({ trip }) {
@@ -38,9 +43,11 @@ function Trip({ trip }) {
   const [selectedRestaurants, setSelectedRestaurants] = useState([]);
   const [restaurantModalIsOpen, setRestaurantModalIsOpen] = useState(null);
   const [selectedStays, setSelectedStays] = useState([]);
-  const [selectedTravelers, setSelectedTravelers] = useState([]);
   const [stayModalIsOpen, setStayModalIsOpen] = useState(null);
+  const [selectedTravelers, setSelectedTravelers] = useState([]);
   const [travelerModalIsOpen, setTravelerModalIsOpen] = useState(null);
+  const [selectedActivities, setSelectedActivities] = useState([]);
+  const [activityModalIsOpen, setActivityModalIsOpen] = useState(null);
 
   useEffect(() => {
     setCurrentTrip(trip);
@@ -163,6 +170,32 @@ function Trip({ trip }) {
     saveTrip({ ...currentTrip, travelers: newTravelers });
   };
 
+  const openActivitiesModal = () => {
+    setSelectedActivities(currentTrip.activities);
+    setActivityModalIsOpen(true);
+  };
+
+  const handleActivityModalClose = () => {
+    setActivityModalIsOpen(false);
+  };
+
+  const saveActivity = () => {
+    handleActivityModalClose();
+    saveTrip({
+      ...currentTrip,
+      activities: selectedActivities,
+    });
+  };
+
+  const handleActivitiesChange = (activities) => {
+    setSelectedActivities(activities);
+  };
+
+  const removeActivity = (activity) => {
+    const newActivities = currentTrip.activities.filter((r) => r !== activity);
+    saveTrip({ ...currentTrip, activities: newActivities });
+  };
+
   const tripIsEmpty =
     !currentTrip.stays.length &&
     !currentTrip.restaurants.length &&
@@ -188,7 +221,14 @@ function Trip({ trip }) {
         handleSpeedDialClose();
       },
     },
-    { icon: <NaturePeopleIcon />, name: "Activity" },
+    {
+      icon: <NaturePeopleIcon />,
+      name: "Activity",
+      onClick: () => {
+        openActivitiesModal();
+        handleSpeedDialClose();
+      },
+    },
     {
       icon: <RestaurantIcon />,
       name: "Restaurant",
@@ -328,6 +368,39 @@ function Trip({ trip }) {
               </div>
             </Grid>
           )}
+          {Boolean(currentTrip.activities.length) && (
+            <Grid item sm={6} md={4}>
+              <div className="trip-activities">
+                <Card>
+                  <CardMedia
+                    component="img"
+                    alt="Trip Activities"
+                    height="140"
+                    image={defaultActivityImage}
+                    title="Trip Activities"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Activities
+                    </Typography>
+                    <ManageActivitiesList
+                      activities={currentTrip.activities}
+                      onRemove={removeActivity}
+                    />
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      size="small"
+                      color="primary"
+                      onClick={openActivitiesModal}
+                    >
+                      Edit
+                    </Button>
+                  </CardActions>
+                </Card>
+              </div>
+            </Grid>
+          )}
         </Grid>
       </div>
 
@@ -384,6 +457,17 @@ function Trip({ trip }) {
         onChange={handleTravelersChange}
         saveButton={
           <Button color="inherit" onClick={saveTraveler}>
+            Save
+          </Button>
+        }
+      />
+      <ManageActivitiesDialog
+        open={activityModalIsOpen}
+        activities={selectedActivities}
+        onClose={handleActivityModalClose}
+        onChange={handleActivitiesChange}
+        saveButton={
+          <Button color="inherit" onClick={saveActivity}>
             Save
           </Button>
         }

@@ -1,0 +1,39 @@
+.manage-activity-dialog-body {
+  padding: 24px;
+}
+
+.manage-activity-dialog-list-item {
+  display: flex;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.manage-activity-dialog-form {
+  text-align: center;
+  justify-content: center;
+}
+
+.manage-activity-dialog-type-field {
+  flex: 0 0 auto;
+}
+
+.manage-activity-dialog-type-field .MuiInput-root {
+  width: 150px;
+}
+
+.manage-activity-dialog-description-field {
+  flex: 0 0 auto;
+}
+
+.manage-activity-dialog-list-item-details {
+  flex: 1 1 auto;
+}
+
+.manage-activity-dialog-type-option {
+  display: flex;
+  align-items: center;
+}
+
+.manage-activity-dialog-type-option svg {
+  margin-right: 4px;
+}
