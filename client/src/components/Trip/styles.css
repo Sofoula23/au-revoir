@@ -19,3 +19,11 @@
 .trip-header {
   text-align: center;
 }
+
+.trip-card-section {
+  height: 100%;
+}
+
+.trip-card-section .MuiPaper-root {
+  height: 100%;
+}

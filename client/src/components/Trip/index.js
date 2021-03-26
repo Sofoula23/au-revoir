@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Hidden from "@material-ui/core/Hidden";
 import Grid from "@material-ui/core/Grid";
@@ -260,11 +261,80 @@ function Trip({ trip }) {
           Your trip is empty, click on the + sign on the bottom right to begin.
         </div>
       )}
-      <div className="trip-cards">
+      <Container maxWidth="md" className="trip-cards">
         <Grid container spacing={2}>
+          {Boolean(currentTrip.travelers.length) && (
+            <Grid item xs={12} sm={6} lg={4}>
+              <div className="trip-travelers trip-card-section">
+                <Card>
+                  <CardMedia
+                    component="img"
+                    alt="Trip Travelers"
+                    height="140"
+                    image={defaultTravelerImage}
+                    title="Trip Travelers"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Travelers
+                    </Typography>
+                    <ManageTravelersList
+                      travelers={currentTrip.travelers}
+                      onRemove={removeTraveler}
+                    />
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      size="small"
+                      color="primary"
+                      onClick={openTravelersModal}
+                    >
+                      Edit
+                    </Button>
+                  </CardActions>
+                </Card>
+              </div>
+            </Grid>
+          )}
+          {Boolean(currentTrip.stays.length) && (
+            <Grid item xs={12} sm={6} lg={4}>
+              <div className="trip-stays trip-card-section">
+                <Card>
+                  <CardMedia
+                    component="img"
+                    alt="Trip Stays"
+                    height="140"
+                    image={getPlaceImageUrl(
+                      currentTrip.stays[0].place,
+                      defaultStayImage
+                    )}
+                    title="Trip Stays"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Stays
+                    </Typography>
+                    <ManageStaysList
+                      stays={currentTrip.stays}
+                      onRemove={removeStay}
+                    />
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      size="small"
+                      color="primary"
+                      onClick={openStaysModal}
+                    >
+                      Edit
+                    </Button>
+                  </CardActions>
+                </Card>
+              </div>
+            </Grid>
+          )}
           {Boolean(currentTrip.restaurants.length) && (
-            <Grid item sm={6} md={4}>
-              <div className="trip-restaurants">
+            <Grid item xs={12} sm={6} lg={4}>
+              <div className="trip-restaurants trip-card-section">
                 <Card>
                   <CardMedia
                     component="img"
@@ -299,78 +369,9 @@ function Trip({ trip }) {
               </div>
             </Grid>
           )}
-          {Boolean(currentTrip.stays.length) && (
-            <Grid item sm={6} md={4}>
-              <div className="trip-stays">
-                <Card>
-                  <CardMedia
-                    component="img"
-                    alt="Trip Stays"
-                    height="140"
-                    image={getPlaceImageUrl(
-                      currentTrip.stays[0].place,
-                      defaultStayImage
-                    )}
-                    title="Trip Stays"
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Stays
-                    </Typography>
-                    <ManageStaysList
-                      stays={currentTrip.stays}
-                      onRemove={removeStay}
-                    />
-                  </CardContent>
-                  <CardActions>
-                    <Button
-                      size="small"
-                      color="primary"
-                      onClick={openStaysModal}
-                    >
-                      Edit
-                    </Button>
-                  </CardActions>
-                </Card>
-              </div>
-            </Grid>
-          )}
-          {Boolean(currentTrip.travelers.length) && (
-            <Grid item sm={6} md={4}>
-              <div className="trip-travelers">
-                <Card>
-                  <CardMedia
-                    component="img"
-                    alt="Trip Travelers"
-                    height="140"
-                    image={defaultTravelerImage}
-                    title="Trip Travelers"
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Travelers
-                    </Typography>
-                    <ManageTravelersList
-                      travelers={currentTrip.travelers}
-                      onRemove={removeTraveler}
-                    />
-                  </CardContent>
-                  <CardActions>
-                    <Button
-                      size="small"
-                      color="primary"
-                      onClick={openTravelersModal}
-                    >
-                      Edit
-                    </Button>
-                  </CardActions>
-                </Card>
-              </div>
-            </Grid>
-          )}
           {Boolean(currentTrip.activities.length) && (
-            <Grid item sm={6} md={4}>
-              <div className="trip-activities">
+            <Grid item xs={12} sm={6} lg={4}>
+              <div className="trip-activities trip-card-section">
                 <Card>
                   <CardMedia
                     component="img"
@@ -402,7 +403,7 @@ function Trip({ trip }) {
             </Grid>
           )}
         </Grid>
-      </div>
+      </Container>
 
       <div className="trip-speed-dial-container">
         <Backdrop open={speedDialIsOpen} />
