@@ -15,7 +15,7 @@ router.post("/", async function (req, res, next) {
     // If the user exists, fail immediately to avoid creating duplicate accounts
     // I am sending the response body in JSON because it is a standard in the web
     if (existingUser) {
-      res.status(400).send({
+      res.status(409).send({
         message: "User already has an account",
       });
       return next();
