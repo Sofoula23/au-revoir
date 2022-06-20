@@ -5,16 +5,28 @@ import Button from "@material-ui/core/Button";
 import { useCurrentUser } from "../../context/UserContext";
 import ResponsiveDialog from "../ResponsiveDialog";
 import PlacesAutoComplete from "../PlacesAutoComplete";
+import { DateTime } from "luxon";
 
 import "./styles.css";
 
 function CreateTripDialog({ open, onClose, onSave }) {
   const [selectedCity, setSelectedCity] = useState(null);
   const [cityInputValue, setCityInputValue] = useState("");
+  const now = DateTime.now();
+  const [startDate, setStartDate] = useState(now.toISODate());
+  const [endDate, setEndDate] = useState('');
   const [currentUser] = useCurrentUser();
 
   const handleCitySelect = (city) => {
     setSelectedCity(city);
+  };
+
+  const handleStartDate = (event) => {
+    setStartDate(event.target.value);
+  };
+
+  const handleEndDate = (event) => {
+    setEndDate(event.target.value);
   };
 
   const saveNewTrip = async () => {
@@ -45,6 +57,31 @@ function CreateTripDialog({ open, onClose, onSave }) {
             placeholder="Enter city"
             onSelect={handleCitySelect}
           />
+        </div>
+        <div className="add-date">
+
+          <div className="date-section">
+            <input
+              type="date"
+              value={startDate}
+              onChange={handleStartDate}
+              min={now.toISODate()}
+              size= "medium"
+            ></input>
+          </div>
+
+          <div className="to-section">
+            to
+          </div>
+
+          <div className="date-section">
+            <input
+            type="date"
+            value={endDate}
+            onChange={handleEndDate}
+            ></input>
+          </div>
+
         </div>
         <div className="trip-begin">
           <Button
